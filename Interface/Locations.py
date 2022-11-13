@@ -8,7 +8,7 @@ from Interface import Timeslots
 
 class Locations:
 
-    def __init__(self, name : str, address: str, latitude: int, longitude: int, fields: dict, new_id: int):
+    def __init__(self, name : str, address: str, latitude: int, longitude: int, fields: dict, new_id=0):
         self.name = name
         self.address = address
         self.latitude = latitude

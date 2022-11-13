@@ -1,6 +1,7 @@
 import googlemaps
 from googlemaps import geocoding
 from Interface import PopulateData
+from BackEnd import APIdata
 import tkinter
 from tkintermapview import TkinterMapView
 from BackEnd.retrieve_info import *
@@ -95,7 +96,13 @@ class SearchBar:
         else:
             lat = res[0]['geometry']['location']['lat']
             long = res[0]['geometry']['location']['lng']
+            APIdata.popWithGoogleAndStoreInBackEnd((lat, long), "Soccer", self.map.populate.radius)
+            APIdata.popWithGoogleAndStoreInBackEnd((lat, long), "Basketball", self.map.populate.radius)
+            APIdata.popWithGoogleAndStoreInBackEnd((lat, long), "Volleyball", self.map.populate.radius)
+            APIdata.popWithGoogleAndStoreInBackEnd((lat, long), "Tennis", self.map.populate.radius)
+
             self.map.populate.setUserLocation((lat,long))
+            self.map.raidusSearch()
             self.map.popMap()
 
 
@@ -119,9 +126,13 @@ class MapCanvas:
 
     def popMap(self):
         self.map_widget.set_position(self.populate.userLocation[0],self.populate.userLocation[1])
+
         for i in self.populate.locationsOnMap:
             self.map_widget.set_marker(float(i.latitude), float(i.longitude), text=i.name)
 
+
+    def raidusSearch(self):
+        self.populate.getAllLocationsNearUser()
 
     def clearMarkers(self):
         while len(self.map_widget.canvas_marker_list) != 0:
