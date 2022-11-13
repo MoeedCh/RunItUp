@@ -70,3 +70,5 @@ class MapCanvas:
         self.mapCanvas.create_window(400, 800, window=self.map_widget, anchor=tkinter.E)
         self.mapCanvas.pack(side= tkinter.RIGHT)
         self.map_widget.pack(fill='both', expand=True)
+        self.map_widget.set_position(37.220090, -80.422660)
+        self.map_widget.set_zoom(15)
