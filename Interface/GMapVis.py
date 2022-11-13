@@ -9,17 +9,21 @@ class MainWindow:
         self.root = tkinter.Tk()
         self.root.geometry("1200x800")
         self.root.title("RunItUp")
+
         self.search = SearchBar(self.root)
         self.map = MapCanvas(self.root)
-        self.filters = Filters(self.root)
+
+        self.filters = Filters(self.root, self.map)
         self.root.mainloop()
 
 
 
 
-class Filters:
+class Filters():
 
-    def __init__(self, rootWindow:tkinter):
+    def __init__(self, rootWindow:tkinter, map):
+        self.map = map
+
         self.filterCanvas = tkinter.Canvas(rootWindow, width=100, height=500)
 
         self.volState = tkinter.IntVar()
@@ -45,7 +49,6 @@ class Filters:
 
         self.filterCanvas.pack()
 
-
     def search(self):
         print(self.volState.get(), self.basketState.get(), self.soccerState.get(), self.tennisState.get())
         fields = []
@@ -58,13 +61,16 @@ class Filters:
             fields.append('soccer')
         if (self.tennisState.get() == 1):
             fields.append('tennis')
-        
-        locations = getLocationInfo({'fields': fields})
 
-        for location in locations:
-            print(location['geolocation'])
 
-        #print(len(locations))
+        self.map.populate.getLocationsFilter(fields)
+        #locations = getLocationInfo({'fields': fields})
+        self.map.popMap()
+
+        #for location in locations:
+         #   print(location['geolocation'])
+
+        # print(len(locations))
 
 
 class SearchBar:
@@ -80,6 +86,7 @@ class SearchBar:
     def updateSearch(self):
         text = self.search_widget.get()
 
+
 class MapCanvas:
 
     def __init__(self, rootWindow: tkinter):
@@ -89,4 +96,23 @@ class MapCanvas:
         self.mapCanvas.pack(side= tkinter.RIGHT)
         self.map_widget.pack(fill='both', expand=True)
         self.map_widget.set_position(37.220090, -80.422660)
+        self.populate = PopulateData.PopulateGmap((37.220090, -80.422660), 50)
+        self.popMap()
         self.map_widget.set_zoom(15)
+
+
+
+    def popMap(self):
+
+        for i in self.populate.locationsOnMap:
+            self.map_widget.set_marker(float(i.latitude), float(i.longitude), text=i.name)
+
+
+    def clearMarkers(self):
+        for i in self.map_widget.canvas_marker_list:
+            i.delete()
+
+
+    def popMapWithData(self, locationList):
+        for i in locationList:
+            self.map_widget.set_marker(float(i.latitude), float(i.longitude), text=i.name)

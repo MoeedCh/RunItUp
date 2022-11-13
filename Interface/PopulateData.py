@@ -24,6 +24,7 @@ class PopulateGmap:
         self.userLocation = location
         self.allLocations = retrieve_info.getAllLocations()
         self.radius = radius
+        #self.getAllLocationsNearUser()
 
 
     def getAllLocationsNearUser(self):
@@ -33,5 +34,11 @@ class PopulateGmap:
                 self.locationsOnMap.append(place)
 
 
+    def getLocationsFilter(self, fieldType):
+        locations = retrieve_info.getLocationInfo({'fields': fieldType})
 
+        for location in locations:
+            place = Locations.Locations(name=location["name"], address=location["address"], latitude=location['geolocation'][0], longitude=location['geolocation'][1], fields={})
+            if withInRadius(self.userLocation, place.getLocation(), self.radius):
+                self.locationsOnMap.append(place)
 
