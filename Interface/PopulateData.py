@@ -24,7 +24,7 @@ class PopulateGmap:
         self.userLocation = location
         self.allLocations = retrieve_info.getAllLocations()
         self.radius = radius
-        #self.getAllLocationsNearUser()
+        self.getAllLocationsNearUser()
 
 
     def getAllLocationsNearUser(self):

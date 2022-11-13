@@ -62,6 +62,7 @@ class Filters():
         if (self.tennisState.get() == 1):
             fields.append('tennis')
 
+        self.map.clearMarkers()
 
         self.map.populate.getLocationsFilter(fields)
         #locations = getLocationInfo({'fields': fields})
@@ -90,6 +91,7 @@ class SearchBar:
 class MapCanvas:
 
     def __init__(self, rootWindow: tkinter):
+        self.root = rootWindow
         self.mapCanvas = tkinter.Canvas(rootWindow, width=800, height=800)
         self.map_widget = TkinterMapView(self.mapCanvas, width=800, height=800, corner_radius=0)
         self.mapCanvas.create_window(400, 800, window=self.map_widget, anchor=tkinter.E)
@@ -103,15 +105,14 @@ class MapCanvas:
 
 
     def popMap(self):
-
         for i in self.populate.locationsOnMap:
             self.map_widget.set_marker(float(i.latitude), float(i.longitude), text=i.name)
 
 
     def clearMarkers(self):
-        for i in self.map_widget.canvas_marker_list:
-            i.delete()
-
+        while len(self.map_widget.canvas_marker_list) != 0:
+            self.map_widget.canvas_marker_list[0].delete()
+        self.root.update()
 
     def popMapWithData(self, locationList):
         for i in locationList:
