@@ -1,3 +1,5 @@
+import googlemaps
+from googlemaps import geocoding
 from Interface import PopulateData
 import tkinter
 from tkintermapview import TkinterMapView
@@ -9,9 +11,9 @@ class MainWindow:
         self.root = tkinter.Tk()
         self.root.geometry("1200x800")
         self.root.title("RunItUp")
-
-        self.search = SearchBar(self.root)
         self.map = MapCanvas(self.root)
+
+        self.search = SearchBar(self.root, self.map)
 
         self.filters = Filters(self.root, self.map)
         self.root.mainloop()
@@ -19,7 +21,7 @@ class MainWindow:
 
 
 
-class Filters():
+class Filters:
 
     def __init__(self, rootWindow:tkinter, map):
         self.map = map
@@ -76,7 +78,8 @@ class Filters():
 
 class SearchBar:
 
-    def __init__(self, rootWindow: tkinter):
+    def __init__(self, rootWindow: tkinter, map):
+        self.map = map
         self.searchCanvas = tkinter.Canvas(rootWindow, width=800, height=50)
         self.search_widget = tkinter.Entry(self.searchCanvas, width=80, justify=tkinter.LEFT)
         self.searchCanvas.create_window(450, 20, window=self.search_widget)
@@ -86,17 +89,27 @@ class SearchBar:
 
     def updateSearch(self):
         text = self.search_widget.get()
+        res = geocoding.geocode(googlemaps.Client("AIzaSyA-BRYsxwC4d1mNlFOwwjJtaQI9HGLm5u0"), address=text)
+        if len(res) == 0:
+            self.search_widget.insert(0, "Not a valid address")
+        else:
+            lat = res[0]['geometry']['location']['lat']
+            long = res[0]['geometry']['location']['lng']
+            self.map.populate.setUserLocation((lat,long))
+            self.map.popMap()
+
+
 
 
 class MapCanvas:
 
     def __init__(self, rootWindow: tkinter):
         self.root = rootWindow
-        self.mapCanvas = tkinter.Canvas(rootWindow, width=800, height=800)
-        self.map_widget = TkinterMapView(self.mapCanvas, width=800, height=800, corner_radius=0)
-        self.mapCanvas.create_window(400, 800, window=self.map_widget, anchor=tkinter.E)
-        self.mapCanvas.pack(side= tkinter.RIGHT)
-        self.map_widget.pack(fill='both', expand=True)
+        self.mapCanvas = tkinter.Canvas(rootWindow, width=800, height=600)
+        self.map_widget = TkinterMapView(self.mapCanvas, width=800, height=600, corner_radius=0)
+        self.mapCanvas.create_window(400, 200, window=self.map_widget)
+        self.mapCanvas.pack(side=tkinter.BOTTOM)
+        self.map_widget.pack(side=tkinter.BOTTOM, fill='both',expand=True)
         self.map_widget.set_position(37.220090, -80.422660)
         self.populate = PopulateData.PopulateGmap((37.220090, -80.422660), 50)
         self.popMap()
@@ -105,6 +118,7 @@ class MapCanvas:
 
 
     def popMap(self):
+        self.map_widget.set_position(self.populate.userLocation[0],self.populate.userLocation[1])
         for i in self.populate.locationsOnMap:
             self.map_widget.set_marker(float(i.latitude), float(i.longitude), text=i.name)
 
@@ -116,4 +130,4 @@ class MapCanvas:
 
     def popMapWithData(self, locationList):
         for i in locationList:
-            self.map_widget.set_marker(float(i.latitude), float(i.longitude), text=i.name)
+            self.map_widget.set_marker(float(i.latitude), float(i.longitude), text=i.name, data=i)

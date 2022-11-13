@@ -3,6 +3,7 @@ from googlemaps import distance_matrix
 from googlemaps import Client
 from BackEnd import retrieve_info
 from Interface import Locations
+from BackEnd import APIdata
 
 def withInRadius(location1 : tuple, location2: tuple, radius: int) -> bool:
     gmaps = Client(key="AIzaSyA-BRYsxwC4d1mNlFOwwjJtaQI9HGLm5u0")
@@ -26,6 +27,11 @@ class PopulateGmap:
         self.radius = radius
         self.getAllLocationsNearUser()
 
+    def setUserLocation(self, loc):
+        self.userLocation = loc
+
+    def setRadius(self, radius):
+        self.radius = radius
 
     def getAllLocationsNearUser(self):
         for location in self.allLocations:
