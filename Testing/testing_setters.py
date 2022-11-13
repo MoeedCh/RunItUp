@@ -38,11 +38,11 @@ def testSetPlayer():
 
 def create_many_events():
     # create a new event, at all soccer fields
-    search_params = {'fields': 'soccer'}
+    search_params = {'fields': ['soccer']}
     locations_list = getLocationInfo(search_params)
     for location in locations_list:
         #print(location['name'])
-        event_name = "soccer pickup game at " + location['name']
+        event_name = "soccer pickup rematch game at " + location['name']
         #print(event_name)
         temp_event = Events.Events(name=event_name, time="11", date="11/14/22",
                                 location=location['id'], field="soccer")

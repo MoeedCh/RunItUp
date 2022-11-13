@@ -8,13 +8,14 @@ from Interface import Timeslots
 
 class Locations:
 
-    def __init__(self, name : str, address: str, latitude: int, longitude: int, fields: dict):
+    def __init__(self, name : str, address: str, latitude: int, longitude: int, fields: dict, new_id: int):
         self.name = name
         self.address = address
         self.latitude = latitude
         self.longitude = longitude
         self.fields = fields
         self.timeslots = Timeslots.Timeslot()
+        self.id = new_id
 
     def __str__(self):
         return self.name

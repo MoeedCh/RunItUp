@@ -13,7 +13,7 @@ from Testing.testing_getters import *
 Bootup the firebase database connection. If so desired, reload all of the default information
 '''
 
-initialize_firebase(loadDefaults=False)
+initialize_firebase(loadDefaults=True)
 print('\n\n')
 
 
@@ -23,8 +23,9 @@ print('\n\n')
 
 #GMapVis.MainWindow()
 # test_get_event({'field': 'soccer'})
-#testGMPLOT.testGPLOT()
+create_many_events()
+testGMPLOT.testGPLOT()
 
 #test_get_location()
 
-GMapVis.MainWindow()
+#GMapVis.MainWindow()

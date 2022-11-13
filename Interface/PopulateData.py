@@ -29,7 +29,7 @@ class PopulateGmap:
 
     def getAllLocationsNearUser(self):
         for location in self.allLocations:
-            place = Locations.Locations(name=location["name"], address=location["address"], latitude=location['geolocation'][0], longitude=location['geolocation'][1], fields={})
+            place = Locations.Locations(name=location["name"], address=location["address"], latitude=location['geolocation'][0], longitude=location['geolocation'][1], fields=location['fields'], new_id=location['id'])
             if withInRadius(self.userLocation, place.getLocation(), self.radius):
                 self.locationsOnMap.append(place)
 
