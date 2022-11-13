@@ -60,9 +60,9 @@ def setNewEvent(new_event, player):
 
     new_id = len(events.get())    # new id
 
-    same_location_list = getEventInfo('id', new_event.location)    # ensure no repeat time/locations
-    for similar_event in same_location_list:
-        if similar_event['time'] == new_event.time and similar_event['date'] == new_event.date:
+    same_location_list = getEventInfo({'location': new_event.location})    
+    for similar_event in same_location_list:        # ensure no repeat time/locations
+        if similar_event['time'] == new_event.time and similar_event['date'] == new_event.date and similar_event['field'] == new_event.field:
             return False
 
 
@@ -78,7 +78,7 @@ def setNewEvent(new_event, player):
     events.update(new_event_dict)      # push to DB
 
     # update the location's timeslot info
-    location_list = getLocationInfo('id', new_event.location)
+    location_list = getLocationInfo({'id': new_event.location})
     location = location_list[0]
     timeslots = location['timeslots']
     timeslots[int(new_event.time)] = True
@@ -97,12 +97,12 @@ def joinEvent(event_id, player):
     #print('adding player w/ username', player['username'], 'to the event w/ id', event_id)
     
     # find the event based on the id
-    event_list = getEventInfo('id', event_id)
-    if len(event_list) == 0:
+    event_list = getEventInfo({'id': event_id})
+    if len(event_list) == 0:    # event not found
         return False
-    event_to_join = event_list[0]
 
     # add the player
+    event_to_join = event_list[0]
     event_to_join['players'].append(player)
     path = '/root/backend/events/' + str(event_id)
     player_list = db.reference(path)

@@ -21,12 +21,12 @@ def initialize_firebase(loadDefaults):
     root = db.reference('root')
 
     if loadDefaults:
-        # print('reloading default data')
         # root.set('/GoogleMaps')
         gm = db.reference('root/GoogleMaps')
         backend = db.reference('root/backend')
-        load_json_info(backend, 'defaults.json')
-        load_json_info(gm, 'placesDump.json')
+        load_json_info(root, 'massLocationDump.json')
+        #load_json_info(backend, 'defaults.json')
+        #load_json_info(gm, 'defaults.json')
 
     return root
 
