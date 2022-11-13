@@ -1,6 +1,7 @@
 from Interface import PopulateData
 import tkinter
 from tkintermapview import TkinterMapView
+from BackEnd.retrieve_info import *
 
 class MainWindow:
 
@@ -47,6 +48,18 @@ class Filters:
 
     def search(self):
         print(self.volState.get(), self.basketState.get(), self.soccerState.get(), self.tennisState.get())
+        if (self.volState.get() == 1):
+            locations = getLocationInfo({'fields': 'volleyball'})
+        elif (self.basketState.get() == 1):
+            locations = getLocationInfo({'fields': 'basketball'})
+        elif (self.soccerState.get() == 1):
+            locations = getLocationInfo({'fields': 'soccer'})
+        elif (self.tennisState.get() == 1):
+            locations = getLocationInfo({'fields': 'tennis'})
+        else:
+            locations = getAllLocations()
+        
+        print(len(locations))
 
 
 class SearchBar:

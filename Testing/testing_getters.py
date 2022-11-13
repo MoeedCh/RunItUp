@@ -13,7 +13,7 @@ def test_get_location():
 
     params = {'fields': 'soccer'}
     locations = getLocationInfo(params)
-    print(len(locations))
+    #print(len(locations))
 
 def test_get_event(params: dict):
     events = getEventInfo(params)
