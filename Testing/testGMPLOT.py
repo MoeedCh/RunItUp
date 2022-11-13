@@ -23,19 +23,25 @@ def testGPLOT():
     root_tk.title("Google Maps")
 
     def ScheduleEvent():
-        print('FuCk')
-        
-    def eventsPopUp():
+        e = Entry(root_tk, width= 50)
+        e.pack()
+        e.insert(0, "Enter your Name: ")
+
+    def eventsPopUp(marker):
         global PopUp
         PopUp = Toplevel(root_tk)
         PopUp.title('Event List')
         PopUp.geometry('400x650')
 
         popUpLabel = Label(PopUp, text='LIST OF EVENTS')
+        popUpLabel.pack(pady=10)
 
-        ScheduleButton = Button(root_tk, text='Schedule', command=ScheduleEvent)
+        myFrame = Frame(PopUp)
+        myFrame.pack(pady=5)
+
+        ScheduleButton = Button(myFrame, text='Schedule', command=ScheduleEvent)
         ScheduleButton.grid(row=0, column=1)
-        ScheduleButton.pack(pady=50)
+        ScheduleButton.pack(pady=20)
     #map inside window
     map_widget = TkinterMapView(root_tk, width=600,height=400,corner_radius=0)
     map_widget.pack(fill='both',expand=True)
