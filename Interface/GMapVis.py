@@ -27,15 +27,15 @@ class Filters:
 
 
         self.basketState = tkinter.IntVar()
-        self.BasketBallBox = tkinter.Checkbutton(self.filterCanvas, text="Basketball")
+        self.BasketBallBox = tkinter.Checkbutton(self.filterCanvas, text="Basketball", variable=self.basketState)
         self.filterCanvas.create_window(50, 40, window=self.BasketBallBox)
 
         self.soccerState = tkinter.IntVar()
-        self.SoccerBox = tkinter.Checkbutton(self.filterCanvas, text="Soccer")
+        self.SoccerBox = tkinter.Checkbutton(self.filterCanvas, text="Soccer", variable=self.soccerState)
         self.filterCanvas.create_window(50, 60, window=self.SoccerBox)
 
         self.tennisState = tkinter.IntVar()
-        self.TennisBox = tkinter.Checkbutton(self.filterCanvas, text="Tennis")
+        self.TennisBox = tkinter.Checkbutton(self.filterCanvas, text="Tennis", variable=self.tennisState)
         self.filterCanvas.create_window(50, 80, window=self.TennisBox)
 
         self.enterButton = tkinter.Button(text="Search", command=self.search)
@@ -46,7 +46,7 @@ class Filters:
 
 
     def search(self):
-        return 1
+        print(self.volState.get(), self.basketState.get(), self.soccerState.get(), self.tennisState.get())
 
 
 class SearchBar:

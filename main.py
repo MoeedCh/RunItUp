@@ -22,5 +22,9 @@ print('\n\n')
 #APIdata.popWithGoogleAndStoreInBackEnd((37.220090, -80.422660), "Basketball", 50)
 
 #GMapVis.MainWindow()
-test_get_event({'field': 'soccer'})
+# test_get_event({'field': 'soccer'})
 #testGMPLOT.testGPLOT()
+
+test_get_location()
+
+GMapVis.MainWindow()

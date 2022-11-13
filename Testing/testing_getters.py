@@ -8,7 +8,8 @@ def test_get_player():
 def test_get_location():
     params = {'fields': 'basketball'}
     locations = getLocationInfo(params)
-    print(len(locations))
+    for location in locations:
+        print(location['geolocation'])
 
     params = {'fields': 'soccer'}
     locations = getLocationInfo(params)
