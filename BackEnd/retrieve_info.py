@@ -36,11 +36,11 @@ def getLocationInfo(params: dict):
     res = []
 
     for location in locations:
-        equal = True
         for key, value in params.items():
             if key == 'fields':
-                if location[key][value] != 0:
-                    res.append(location)
+                for val in value:
+                    if location[key][val] != 0:
+                        res.append(location)
             else:
                 if location[key] == value:
                     res.append(location)

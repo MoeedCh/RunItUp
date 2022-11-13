@@ -6,12 +6,12 @@ def test_get_player():
     print(players)
 
 def test_get_location():
-    params = {'fields': 'basketball'}
+    params = {'fields': ['basketball']}
     locations = getLocationInfo(params)
-    for location in locations:
-        print(location['geolocation'])
+    # for location in locations:
+    #     print(location['geolocation'])
 
-    params = {'fields': 'soccer'}
+    params = {'fields': ['soccer']}
     locations = getLocationInfo(params)
     #print(len(locations))
 

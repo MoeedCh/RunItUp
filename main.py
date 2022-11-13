@@ -25,6 +25,6 @@ print('\n\n')
 # test_get_event({'field': 'soccer'})
 #testGMPLOT.testGPLOT()
 
-test_get_location()
+#test_get_location()
 
 GMapVis.MainWindow()

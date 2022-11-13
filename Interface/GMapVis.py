@@ -48,18 +48,23 @@ class Filters:
 
     def search(self):
         print(self.volState.get(), self.basketState.get(), self.soccerState.get(), self.tennisState.get())
+        fields = []
+
         if (self.volState.get() == 1):
-            locations = getLocationInfo({'fields': 'volleyball'})
-        elif (self.basketState.get() == 1):
-            locations = getLocationInfo({'fields': 'basketball'})
-        elif (self.soccerState.get() == 1):
-            locations = getLocationInfo({'fields': 'soccer'})
-        elif (self.tennisState.get() == 1):
-            locations = getLocationInfo({'fields': 'tennis'})
-        else:
-            locations = getAllLocations()
+            fields.append('volleyball')
+        if (self.basketState.get() == 1):
+            fields.append('basketball')
+        if (self.soccerState.get() == 1):
+            fields.append('soccer')
+        if (self.tennisState.get() == 1):
+            fields.append('tennis')
         
-        print(len(locations))
+        locations = getLocationInfo({'fields': fields})
+
+        for location in locations:
+            print(location['geolocation'])
+
+        #print(len(locations))
 
 
 class SearchBar:
