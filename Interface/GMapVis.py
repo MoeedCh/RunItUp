@@ -67,6 +67,8 @@ class Filters:
 
         self.map.clearMarkers()
 
+
+
         self.map.populate.getLocationsFilter(fields)
         #locations = getLocationInfo({'fields': fields})
         self.map.popMap()
@@ -96,10 +98,8 @@ class SearchBar:
         else:
             lat = res[0]['geometry']['location']['lat']
             long = res[0]['geometry']['location']['lng']
-            APIdata.popWithGoogleAndStoreInBackEnd((lat, long), "Soccer", self.map.populate.radius)
-            APIdata.popWithGoogleAndStoreInBackEnd((lat, long), "Basketball", self.map.populate.radius)
-            APIdata.popWithGoogleAndStoreInBackEnd((lat, long), "Volleyball", self.map.populate.radius)
-            APIdata.popWithGoogleAndStoreInBackEnd((lat, long), "Tennis", self.map.populate.radius)
+            APIdata.popWithGoogleAndStoreInBackEnd((lat, long), self.map.populate.radius)
+
 
             self.map.populate.setUserLocation((lat,long))
             self.map.raidusSearch()

@@ -108,3 +108,23 @@ def joinEvent(event_id, player):
     player_list = db.reference(path)
     player_list.update(event_to_join)
     return True
+
+
+# Caches new user location in database so we don't have to search there again
+# Stores a location tuple and a radius
+def setNewUserLocation(location: tuple, radius: int):
+    users = db.reference('root/backend/UserLocations') # get reference to players branch
+
+
+
+    for usrLoc in users.get():    # ensure no repeat usernames
+        if usrLoc['location'][0] == location[0] and usrLoc['location'][1] and usrLoc["radius"] >= radius:
+            return False
+
+
+    new_key = len(users.get())    # new index to add to
+    new_userLoc = { new_key: { "location": location, "radius": radius} }
+
+    users.update(new_userLoc)      # push to DB
+    return True
+

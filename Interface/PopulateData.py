@@ -4,8 +4,9 @@ from googlemaps import Client
 from BackEnd import retrieve_info
 from Interface import Locations
 from BackEnd import APIdata
+import geopy.distance
 
-def withInRadius(location1 : tuple, location2: tuple, radius: int) -> bool:
+def withInRadiusOld(location1 : tuple, location2: tuple, radius: int) -> bool:
     gmaps = Client(key="AIzaSyA-BRYsxwC4d1mNlFOwwjJtaQI9HGLm5u0")
     distance = distance_matrix.distance_matrix(origins = location1, destinations = location2, client=gmaps, units='imperial')
     if distance['rows'][0]['elements'][0]['status'] != "ZERO_RESULTS":
@@ -16,6 +17,11 @@ def withInRadius(location1 : tuple, location2: tuple, radius: int) -> bool:
             return True
     return False
 
+def withInRadius(location1 : tuple, location2: tuple, radius: int) -> bool:
+    distance = geopy.distance.geodesic(location1, location2)
+    if distance <= radius:
+        return True
+    return False
 
 
 class PopulateGmap:
@@ -34,6 +40,7 @@ class PopulateGmap:
         self.radius = radius
 
     def getAllLocationsNearUser(self):
+        #APIdata.popWithGoogleAndStoreInBackEnd(self.userLocation, radius=self.radius)
         for location in self.allLocations:
             place = Locations.Locations(name=location["name"], address=location["address"], latitude=location['geolocation'][0], longitude=location['geolocation'][1], fields=location['fields'], new_id=location['id'])
             if withInRadius(self.userLocation, place.getLocation(), self.radius):
@@ -41,6 +48,8 @@ class PopulateGmap:
 
 
     def getLocationsFilter(self, fieldType):
+        self.locationsOnMap = []
+
         locations = retrieve_info.getLocationInfo({'fields': fieldType})
 
         for location in locations:

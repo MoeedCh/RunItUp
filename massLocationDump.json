@@ -3154,6 +3154,16 @@
         "name": "Aayush Jain",
         "username": "jain_man"
       }
-    ]
+    ],
+
+    "UserLocations": {
+    "0": {
+      "location": ["37.225820", "-80.420000"],
+      "radius": 30
+
+    }
   }
+  }
+
+
 }

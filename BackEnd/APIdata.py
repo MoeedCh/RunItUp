@@ -16,6 +16,9 @@ from BackEnd import set_info
 gmaps = googlemaps.Client(key="AIzaSyA-BRYsxwC4d1mNlFOwwjJtaQI9HGLm5u0")
 
 
+sportsTypes = ["basketball", "soccer", "tennis", "volleyball"]
+
+
 ###################################### HELPER METHODS
 def getGeocodeFromFirebase(locationDictionary):
     latlong = locationDictionary['lat'],locationDictionary['lng']
@@ -42,7 +45,7 @@ def searchCleanUp(db_path):
             db.reference('root/'+db_path+'/results/'+str(i)+'/'+str(rejectedHeaders[x])).delete()
 
 ###################################### MAIN METHOD
-def populateDatabase(gmaps, db_path, latLongTuple, enumType, radius):
+def populateDatabase(gmaps, db_path, latLongTuple, radius):
     # Geocoding an address
     #geoCodeRes = gmaps.geocode(address)
 
@@ -60,7 +63,11 @@ def populateDatabase(gmaps, db_path, latLongTuple, enumType, radius):
     #geocodeFromFB = getGeocodeFromFirebase(getLocationDict(db_path))
 
     # Look up type of places within 2 miles (3218.69 meters)
-    places_result = gmaps.places(enumType, latLongTuple, radius)
+
+    places_result = {}
+    for i in sportsTypes:
+        places_result.update(gmaps.places(i, latLongTuple, radius))
+
 
     #dump this new GET to a new jsonFile
     with open('customplace.json','w') as f:
@@ -70,6 +77,11 @@ def populateDatabase(gmaps, db_path, latLongTuple, enumType, radius):
     load_json_info(gm, 'customplace.json')
 
     searchCleanUp(db_path)
+
+
+
+
+
 
 ######################################
 def moveSavedLocationsIntoDatabase()->list:
@@ -90,9 +102,12 @@ def moveSavedLocationsIntoDatabase()->list:
     return locations
 
 
-def popWithGoogleAndStoreInBackEnd(location: tuple, searchTerm: str, radius:int):
-    populateDatabase(gmaps,"SavedLocations",location, searchTerm, radius)
-    location = moveSavedLocationsIntoDatabase()
-    for i in location:
-        set_info.setNewLocation(i)
+def popWithGoogleAndStoreInBackEnd(location: tuple, radius:int):
+    if set_info.setNewUserLocation(location, radius):
+        populateDatabase(gmaps,"SavedLocations",location, radius)
+        location = moveSavedLocationsIntoDatabase()
+        for i in location:
+            set_info.setNewLocation(i)
+
+
 
