@@ -66,17 +66,10 @@ class Filters:
             fields.append('tennis')
 
         self.map.clearMarkers()
-
-
-
         self.map.populate.getLocationsFilter(fields)
-        #locations = getLocationInfo({'fields': fields})
         self.map.popMap()
 
-        #for location in locations:
-         #   print(location['geolocation'])
 
-        # print(len(locations))
 
 
 class SearchBar:
@@ -101,7 +94,7 @@ class SearchBar:
             APIdata.popWithGoogleAndStoreInBackEnd((lat, long), self.map.populate.radius)
 
 
-            self.map.populate.setUserLocation((lat,long))
+            self.map.setMapLocation((lat,long))
             self.map.raidusSearch()
             self.map.popMap()
 
@@ -125,7 +118,7 @@ class MapCanvas:
 
 
     def popMap(self):
-        self.map_widget.set_position(self.populate.userLocation[0],self.populate.userLocation[1])
+        #self.map_widget.set_position(self.populate.userLocation[0],self.populate.userLocation[1])
 
         for i in self.populate.locationsOnMap:
             self.map_widget.set_marker(float(i.latitude), float(i.longitude), text=i.name)
@@ -142,3 +135,8 @@ class MapCanvas:
     def popMapWithData(self, locationList):
         for i in locationList:
             self.map_widget.set_marker(float(i.latitude), float(i.longitude), text=i.name, data=i)
+
+
+    def setMapLocation(self, location:tuple):
+        self.map_widget.set_position(location[0], location[1])
+        self.populate.setUserLocation((location[0], location[1]))
