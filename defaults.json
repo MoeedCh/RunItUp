@@ -71,8 +71,7 @@
   "players": {
     "0": { "name": "Moeed chaudhry", "username": "couch" },
     "1": { "name": "Carlos Urbina", "username": "big_baller" },
-    "2": { "name": "Andrew Neeser", "username": "big_dog" },
-    "3": { "name": "Aayush Jain", "username": "jain_man" }
+    "2": { "name": "Andrew Neeser", "username": "big_dog" }
   },
 
   "events": {
@@ -83,8 +82,7 @@
       "players": [
         { "name": "moeed chaudhry", "username": "couch" },
         { "name": "carlos urbina", "username": "big_baller" },
-        { "name": "andrew neeser", "username": "big_dog" },
-        { "name": "aayush jain", "username": "jain_man" }
+        { "name": "andrew neeser", "username": "big_dog" }
       ],
       "field": "basketball",
       "date": "11/14/22",

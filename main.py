@@ -15,7 +15,7 @@ Bootup the firebase database connection. If so desired, reload all of the defaul
 initialize_firebase(loadDefaults=False)
 
 # add some new players to the database
-# new_player = User('21', 'canyoudosomnforme')
+# new_player = User('leo', 'messi')
 # setNewPlayer(new_player)
 
 # new_player = User('michael jordan', 'the_goat')
